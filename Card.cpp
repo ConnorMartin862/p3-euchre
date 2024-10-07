@@ -30,8 +30,7 @@ Rank string_to_rank(const std::string &str) {
     if (str == RANK_NAMES[r]) {
       return static_cast<Rank>(r);
     }
-  }
-  assert(false); // Input string didn't match any rank
+  }// Input string didn't match any rank
   return {};
 }
 
@@ -69,8 +68,7 @@ Suit string_to_suit(const std::string &str) {
     if (str == SUIT_NAMES[s]) {
       return static_cast<Suit>(s);
     }
-  }
-  assert(false); // Input string didn't match any suit
+  } // Input string didn't match any suit
   return {};
 }
 
@@ -186,12 +184,12 @@ bool operator>=(const Card &lhs, const Card &rhs){
 
 
 bool operator==(const Card &lhs, const Card &rhs){
-  return lhs == rhs;
+  return ((lhs.get_rank() == rhs.get_rank()) && (lhs.get_suit() == rhs.get_suit()));
 }
 
 
 bool operator!=(const Card &lhs, const Card &rhs){
-  return lhs != rhs;
+  return ((lhs.get_rank() != rhs.get_rank()) || (lhs.get_suit() != rhs.get_suit()));
 }
 
 
@@ -232,8 +230,6 @@ bool Card_less(const Card &a, const Card &b, Suit trump){
 
 
 bool Card_less(const Card &a, const Card &b, const Card &led_card, Suit trump){
-  bool atr = a.is_trump(trump);
-  bool btr = b.is_trump(trump);
   bool al = (a.get_suit() == led_card.get_suit());
   bool bl = (a.get_suit() == led_card.get_suit());
   if (al && bl){
