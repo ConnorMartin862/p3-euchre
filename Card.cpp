@@ -91,9 +91,15 @@ std::istream & operator>>(std::istream &is, Suit &suit) {
 
 /////////////// Write your implementation for Card below ///////////////
 
-Card::Card() : rank(TWO), suit(SPADES){}
+Card::Card(){
+  rank = TWO;
+  suit = SPADES;
+}
 
-Card::Card(Rank rank_in, Suit suit_in) : rank(rank_in), suit(suit_in){}
+Card::Card(Rank rank_in, Suit suit_in){
+  rank = rank_in;
+  suit = suit_in;
+}
 
 Rank Card::get_rank() const{
   return rank;
@@ -154,13 +160,14 @@ std::ostream & operator<<(std::ostream &os, const Card &card){
 }
 
 std::istream & operator>>(std::istream &is, Card &card){
-  std::string r, s;
-    if (is >> r >> s) {
-        r.pop_back(); 
-        card.rank = string_to_rank(r);
-        card.suit = string_to_suit(s);
-    }
-    return is;
+  string r;
+  string s;
+  is >> r >> s;
+
+  card.rank = string_to_rank(r);
+  card.suit = string_to_suit(s);
+
+  return is;
 }
 
 bool operator<(const Card &lhs, const Card &rhs){
