@@ -270,7 +270,18 @@ bool Card_less(const Card &a, const Card &b, const Card &led_card, Suit trump){
 
   bool al = (a.get_suit() == led_card.get_suit());
   bool bl = (b.get_suit() == led_card.get_suit());
-  if (al && bl){
+  bool at = (a.get_suit() == trump);
+  bool bt =(b.get_suit() == trump);
+  if (at && bt){
+    return Card_less(a, b, trump);
+  }
+  else if (at == true){
+    return false;
+  }
+  else if (bt == true){
+    return true;
+  }
+  else if (al && bl){
     return operator<(a, b);
   }
   else if (al == true){

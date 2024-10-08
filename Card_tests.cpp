@@ -74,7 +74,7 @@ TEST(test_led_card_less) {
 
     ASSERT_EQUAL(false, Card_less(c, d, led, CLUBS));
     ASSERT_EQUAL(false, Card_less(c, d, led, SPADES));
-    ASSERT_EQUAL(false, Card_less(c, d, led, DIAMONDS));
+    ASSERT_EQUAL(true, Card_less(c, d, led, DIAMONDS));
     ASSERT_EQUAL(false, Card_less(c, d, led, HEARTS));
     ASSERT_EQUAL(true, Card_less(e, d, led, CLUBS));
     ASSERT_EQUAL(true, Card_less(e, d, led, SPADES));
