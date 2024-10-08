@@ -112,7 +112,31 @@ class Simple : public Player{
   //  is removed the player's hand.
   virtual Card lead_card(Suit trump){
     assert(hand.size() >= 1);
-    assert(false);
+    int index = -1;
+    Card lead;
+    for (int i = 0; i < hand.size(); i++){
+      if (hand[i].is_trump(trump) == false){
+        if (index == -1 || Card_less(hand[index] ,hand[i] ,trump)){
+          index = i;
+        }
+      }
+    }
+    if (index == -1){
+      index = 0;
+      for (int j = 0; j < hand.size(); j++){
+        if (Card_less(hand[index], hand[j], trump)){
+          index = j;
+        }
+      }
+      lead = hand[index];
+      hand.erase(hand.begin() + index);
+      return lead;
+    }
+    else {
+      lead = hand[index];
+      hand.erase(hand.begin() + index);
+      return lead;
+    }
   }
 
   //REQUIRES Player has at least one card
