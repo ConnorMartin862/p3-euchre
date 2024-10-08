@@ -144,9 +144,32 @@ class Simple : public Player{
   //  The card is removed from the player's hand.
   virtual Card play_card(const Card &led_card, Suit trump){
     assert(hand.size() >= 1);
-    assert(false);
+    int index = -1;
+    Card play;
+    for (int i = 0; i < hand.size(); i++){
+      if (hand[i].get_suit() != led_card.get_suit()){
+        if (index == -1 || Card_less(hand[i] ,hand[index] ,trump)){
+          index = i;
+        }
+      }
+    }
+    if (index == -1){
+      index = 0;
+      for (int j = 0; j < hand.size(); j++){
+        if (Card_less(hand[index], hand[j], trump)){
+          index = j;
+        }
+      }
+      play = hand[index];
+      hand.erase(hand.begin() + index);
+      return play;
+   }
+   else {
+    play = hand[index];
+      hand.erase(hand.begin() + index);
+      return play;
+   }
   }
-
   static const int MAX_HAND_SIZE = 5;
 };
 
