@@ -4,6 +4,8 @@
 #include <string>
 #include <iostream>
 #include "Card.hpp"
+#include "Pack.hpp"
+#include "unit_test_framework.hpp"
 #include <sstream>
 #include <algorithm>
 #include <vector>
@@ -13,6 +15,7 @@ using namespace std;
 //To create an object that won't go out of scope when the function returns,
 //use "return new Simple(name)" or "return new Human(name)"
 //Don't forget to call "delete" on each Player* after the game is over
+
 class Simple : public Player{
     private:
     string name;
@@ -25,7 +28,7 @@ class Simple : public Player{
     return name;
   }
   virtual void add_card(const Card &c){
-    assert(hand.size() < MAX_HAND_SIZE);
+    assert(hand.size() <= MAX_HAND_SIZE);
     hand.push_back(c);
   }
 
@@ -40,44 +43,40 @@ class Simple : public Player{
     int count1 = 0;
     int count2 = 0;
     Suit n = Suit_next(upcard.get_suit());
-
-    // Round 1 logic
-    if (round == 1) {
-        for (int i = 0; i < hand.size(); i++) {
-            if ((hand[i].get_suit() == upcard.get_suit() && hand[i].get_rank() >= JACK) || 
-                (n == hand[i].get_suit() && hand[i].get_rank() == JACK)) {
-                count1++;
-            }
+    if (round == 1){
+      for (int i = 0; i < hand.size(); i++){
+        if ((hand[i].get_suit() == upcard.get_suit() && hand[i].get_rank() >= JACK) || 
+        (n == hand[i].get_suit() && hand[i].get_rank() == JACK)){
+          count1++;
         }
-        if (count1 >= 2) {
-            order_up_suit = upcard.get_suit();
-            return true;
-        }
+      }
+      if (count1 >= 2){
+        order_up_suit = upcard.get_suit();
+        return true;
+      }
+      else {
         return false;
+      }
     }
-
-    // Round 2 logic
-    if (round == 2) {
-        for (int j = 0; j < hand.size(); j++) {
-            if ((hand[j].get_suit() == n && hand[j].get_rank() >= JACK) || 
-                (upcard.get_suit() == hand[j].get_suit() && hand[j].get_rank() == JACK)) {
-                count2++;
-            }
+    else{
+      for (int j = 0; j < hand.size(); j++){
+        if ((hand[j].get_suit() == n && hand[j].get_rank() >= JACK) || 
+        (upcard.get_suit() == hand[j].get_suit() && hand[j].get_rank() == JACK)){
+          count2++;
         }
-        if (count2 >= 1) {
-            order_up_suit = n;
-            return true;
-        }
+      }
+      if (count2 >= 1){
+        order_up_suit = n;
+        return true;
+      }
     }
-
-    // If player is dealer
     if (is_dealer) {
         order_up_suit = upcard.get_suit();
         return true;
     }
 
     return false;
-}
+  }
 
   virtual void add_and_discard(const Card &upcard){
     assert(hand.size() >= 1);
@@ -263,3 +262,20 @@ class Human : public Player{
   static const int MAX_HAND_SIZE = 5;
 };
 
+Player * Player_factory(const std::string &name, const std::string &strategy){
+    if (strategy == "Simple") {
+        return new Simple(name);
+    } else if(strategy == "Human"){
+        return new Human(name);
+    }
+    else{
+        assert(false); 
+        return nullptr;
+    }
+ }
+
+//EFFECTS: Prints player's name to os
+std::ostream & operator<<(std::ostream &os, const Player &p){
+    os << p.get_name();
+    return os;
+}
