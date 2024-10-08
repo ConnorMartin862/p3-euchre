@@ -219,8 +219,24 @@ Suit Suit_next(Suit suit){
 
 
 bool Card_less(const Card &a, const Card &b, Suit trump){
+
+  if (a.is_right_bower(trump)) {
+    return false;
+  }
+  else if (b.is_right_bower(trump)) {
+    return true;
+  }
+
+  if (a.is_left_bower(trump)) {
+    return false;
+  }
+  else if (b.is_left_bower(trump)) {
+    return true;
+  }
+
   bool av = a.is_trump(trump);
   bool bv = b.is_trump(trump);
+
   if (av == bv){
     return operator<(a, b);
   }
@@ -237,6 +253,21 @@ bool Card_less(const Card &a, const Card &b, Suit trump){
 
 
 bool Card_less(const Card &a, const Card &b, const Card &led_card, Suit trump){
+
+  if (a.is_right_bower(trump)) {
+    return false;
+  }
+  else if (b.is_right_bower(trump)) {
+    return true;
+  }
+
+  if (a.is_left_bower(trump)) {
+    return false;
+  }
+  else if (b.is_left_bower(trump)) {
+    return true;
+  }
+
   bool al = (a.get_suit() == led_card.get_suit());
   bool bl = (b.get_suit() == led_card.get_suit());
   if (al && bl){
