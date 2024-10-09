@@ -41,13 +41,13 @@ class Simple : public Player{
     assert(round == 1 || round == 2);
     int count1 = 0;
     int count2 = 0;
-    Suit n = Suit_next(upcard.get_suit());
+    // Suit n = Suit_next(upcard.get_suit());
 
     // Round 1 logic
     if (round == 1) {
         for (int i = 0; i < hand.size(); i++) {
             if ((hand[i].get_suit() == upcard.get_suit() && hand[i].get_rank() >= JACK) || 
-                (n == hand[i].get_suit() && hand[i].get_rank() == JACK)) {
+                (hand[i].is_left_bower(upcard.get_suit()))) {
                 count1++;
             }
         }
@@ -55,29 +55,21 @@ class Simple : public Player{
             order_up_suit = upcard.get_suit();
             return true;
         }
-        return false;
     }
 
     // Round 2 logic
     if (round == 2) {
         for (int j = 0; j < hand.size(); j++) {
-            if ((hand[j].get_suit() == n && hand[j].get_rank() >= JACK) || 
-                (upcard.get_suit() == hand[j].get_suit() && hand[j].get_rank() == JACK)) {
+            if ((hand[j].get_suit() == Suit_next(upcard.get_suit()) && hand[j].get_rank() >= JACK) || 
+                (hand[j].is_left_bower(upcard.get_suit()))) {
                 count2++;
             }
         }
-        if (count2 >= 1) {
-            order_up_suit = n;
+        if (count2 >= 1 || is_dealer) {
+            order_up_suit = Suit_next(upcard.get_suit());
             return true;
         }
     }
-
-    // If player is dealer
-    if (is_dealer) {
-        order_up_suit = upcard.get_suit();
-        return true;
-    }
-
     return false;
 }
 
@@ -136,8 +128,8 @@ class Simple : public Player{
     int index = -1;
     Card play;
     for (int i = 0; i < hand.size(); i++){
-      if (hand[i].get_suit() == led_card.get_suit()){
-        if (index == -1 || Card_less(hand[index] ,hand[i] , led_card, trump)){
+      if (hand[i].get_suit(trump) == led_card.get_suit(trump)){
+        if (index == -1 || Card_less(hand[index] ,hand[i], trump)){
           index = i;
         }
       }
@@ -145,7 +137,7 @@ class Simple : public Player{
     if (index == -1){
       index = 0;
       for (int j = 0; j < hand.size(); j++){
-        if (Card_less(hand[j], hand[index], led_card, trump)){
+        if (Card_less(hand[j], hand[index], trump)){
           index = j;
         }
       }
