@@ -108,6 +108,50 @@ TEST(test_led_card_less) {
     ASSERT_EQUAL(false, Card_less(e, f, led2, DIAMONDS));
     ASSERT_EQUAL(false, Card_less(d, f, led2, SPADES));
 }
+TEST(test_operator_less_than) {
+    Card c(ACE, SPADES);
+    Card d(TEN, SPADES);
+    ASSERT_EQUAL(true, operator<(d, c));
+    ASSERT_EQUAL(false, operator<(c, d));
+}
+TEST(test_operator_less_than_or_equal) {
+    Card c(ACE, SPADES);
+    Card d(TEN, SPADES);
+    Card e(TEN, SPADES);
+    ASSERT_EQUAL(true, operator<=(d, c));
+    ASSERT_EQUAL(false, operator<=(c, d));
+    ASSERT_EQUAL(true, operator<=(d, e));
+}
+TEST(test_operator_greater_than) {
+    Card c(ACE, SPADES);
+    Card d(TEN, SPADES);
+    ASSERT_EQUAL(false, operator>(d, c));
+    ASSERT_EQUAL(true, operator>(c, d));
+}
+TEST(test_operator_greater_than_or_equal) {
+    Card c(ACE, SPADES);
+    Card d(TEN, SPADES);
+    Card e(TEN, SPADES);
+    ASSERT_EQUAL(false, operator>=(d, c));
+    ASSERT_EQUAL(true, operator>=(c, d));
+    ASSERT_EQUAL(true, operator>=(d, e));
+}
+TEST(test_operator_equal) {
+    Card c(ACE, SPADES);
+    Card d(TEN, SPADES);
+    Card e(TEN, SPADES);
+    ASSERT_EQUAL(false, operator==(d, c));
+    ASSERT_EQUAL(false, operator==(c, d));
+    ASSERT_EQUAL(true, operator==(d, e));
+}
+TEST(test_operator_not_equal) {
+    Card c(ACE, SPADES);
+    Card d(TEN, SPADES);
+    Card e(TEN, SPADES);
+    ASSERT_EQUAL(true, operator!=(d, c));
+    ASSERT_EQUAL(true, operator!=(c, d));
+    ASSERT_EQUAL(false, operator!=(d, e));
+}
 // Add more test cases here
 
 TEST_MAIN()

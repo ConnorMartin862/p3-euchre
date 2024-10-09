@@ -29,6 +29,16 @@ TEST(test_player_insertion) {
   delete human;
   delete may;
 }
+
+TEST(add_discard){
+  Player * bob = Player_factory("Bob", "Simple");
+  bob->add_card(Card(NINE, DIAMONDS));
+  bob->add_card(Card(TEN, SPADES));
+  bob->add_card(Card(QUEEN, CLUBS));
+  bob->add_card(Card(KING, HEARTS));
+  bob->add_and_discard(Card(NINE, CLUBS));
+  Card c = Card(NINE, DIAMONDS);
+}
 TEST(add_discard_lead_card){
     Player * bob = Player_factory("Bob", "Simple");
   bob->add_card(Card(NINE, DIAMONDS));
@@ -54,6 +64,8 @@ TEST(add_discard_lead_card){
   Card ace_spades2(ACE, SPADES);
   ASSERT_EQUAL(card_led, ace_spades);
   ASSERT_EQUAL(card_led2, ace_spades2); //check led card
+  delete bob;
+  delete bob2;
 }
 
 // Add more tests here

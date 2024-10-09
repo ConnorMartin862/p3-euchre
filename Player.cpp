@@ -104,7 +104,7 @@ class Simple : public Player{
     int index = -1;
     Card lead;
     for (int i = 0; i < hand.size(); i++){
-      if (hand[i].is_trump(trump) == false){
+      if ((hand[i].is_trump(trump) == false) && (hand[i].is_left_bower(trump) == false)){
         if (index == -1 || Card_less(hand[index] ,hand[i] ,trump)){
           index = i;
         }
@@ -136,8 +136,8 @@ class Simple : public Player{
     int index = -1;
     Card play;
     for (int i = 0; i < hand.size(); i++){
-      if (hand[i].get_suit() != led_card.get_suit()){
-        if (index == -1 || Card_less(hand[i] ,hand[index] ,trump)){
+      if (hand[i].get_suit() == led_card.get_suit()){
+        if (index == -1 || Card_less(hand[index] ,hand[i] , led_card, trump)){
           index = i;
         }
       }
@@ -145,7 +145,7 @@ class Simple : public Player{
     if (index == -1){
       index = 0;
       for (int j = 0; j < hand.size(); j++){
-        if (Card_less(hand[index], hand[j], trump)){
+        if (Card_less(hand[j], hand[index], led_card, trump)){
           index = j;
         }
       }
